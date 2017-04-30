@@ -109,7 +109,7 @@ shinyUI(
               ## Map output
               absolutePanel(width = 700,
                 br(size=10),
-                leafletOutput("map"),
+                leaflet::leafletOutput("map"),
                 br(size=20),
                 DT::dataTableOutput('table1')
               )# Close absolute

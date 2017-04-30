@@ -1,1 +1,1 @@
-Temporary image files
+Temporory folder for images

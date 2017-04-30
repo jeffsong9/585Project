@@ -6,8 +6,9 @@ The application scrapes the `yelp` web page using the `rvest` package and recons
 # How to use the App?
 ### Front Page
 ![Front Page](/Report/relp_front.PNG)
-First enter the values in the "Find" and "Near" variable and click the red search symbol.
+First enter the values for the "Find" and "Near" variable and click the red search symbol.
 When entering the "Near" variable, please provide the State information as well (e.g. IA).
+The default value of the "Find" is "Restaurant" and "Ames, IA" for the "Near" variable.
 
 ### Main Page
 ![Front Page](/Report/relp_main.PNG)

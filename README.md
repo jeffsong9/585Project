@@ -5,4 +5,4 @@ The application scrapes the `yelp` web page using the `rvest` package and recons
 
 # How to use the App?
 
-![Front Page](../Report/relp_front.png)
+![Front Page](/Report/relp_front.PNG)

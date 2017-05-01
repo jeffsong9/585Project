@@ -1,6 +1,6 @@
 # Relp
 
-Relp is a Shiny application that imitates the `yelp.com`.
+Relp is a Shiny application that imitates the [`yelp.com`](www.yelp.com).
 The application scrapes the `yelp` web page using the `rvest` package and reconstructs the scraped information via `leaflet`, `DT`, `ggmap`, and `tidyverse`.
 
 # How to use the App?

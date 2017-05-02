@@ -1,7 +1,7 @@
 ---
 title: "Relp"
 author: "Taikgun Song"
-date: "4/29/2017"
+date: "Due May 5th, 2017"
 header-includes:
    - \usepackage{amsmath}
    - \usepackage{graphicx}
@@ -9,8 +9,9 @@ header-includes:
    - \usepackage{subcaption}
    - \usepackage[export]{adjustbox}
    - \usepackage{wrapfig}
+   - \usepackage{color}
 abstract: |
-  A popular webpage `yelp.com` was reconstructed into a `shiny` application.  The application focuses on imitating two basic features of the webpage\: providing user-generated reviews and ratings, and providing basic information of the local businesses. The imitation was done by first scraping the `yelp.com` webpage, and re-building the features with interactive visualization and data re-organization via `R` language and `Shiny` application.
+  A popular webpage `yelp.com` was reconstructed into a `shiny` application.  The application focuses on imitating two basic features of the webpage: providing user-generated reviews/ratings, and providing basic information of the local businesses. The imitation was done by first scraping `yelp.com` webpage, and re-building the features with interactive visualization and data re-organization via `Shiny` package built in `R`.
 
 output:
   pdf_document:
@@ -26,53 +27,57 @@ opts_chunk$set(echo=FALSE, warning=FALSE, message = FALSE, tidy.opts=list(width.
 ```
 
 # Introduction
-The name of the project re-construction of `yelp.com` using R. `Relp` (reads Re-lp)
-
-building my own web page.
-
-Since the application educational purpose reviewing class materials from STAT585 course.
-
-The application was focused on learning HTML language framework, implementing `R` output into 
+`Relp`(reads Re-lp) stands for re-construction of `yelp.com` using `R`, and the meaning of the name pretty much describes what the application is already. The motivation for this project was to learn about the `Shiny` [@shiny] application - a web application framework for `R`[@R], and to fulfill my personal interest - constructing a web page, and understand how HTML language works. The idea is to scrape certain information from `yelp.com` using the `rvest`[@rvest] package and build a web application using `R` packages such as `tidyverse`[@tidyverse], `leaflet`[@leaflet], `ggmap`[@ggmap], `DT`[@DT], and `shiny`.
 
 
-# `yelp.com`
-`yelp.com` [@yelp] is an online and mobile application providing platforms for internet users to publish reviews and rate local businesses, as well as online delivery service and reservation service.  For the project, only the user-generated reviews and local business information was taken into consideration.  
-
-
-Some of the basic features of this webpage was reconstructed using the `shiny`[@shiny] application in `R`[@R] framework. 
-
-
-`shiny`[@shiny], `tidyverse` [@tidyverse], `ggmap` [@ggmap], `leaflet` [@leaflet], `DT` [@DT].
+# Basic features of `yelp.com`
+`yelp.com` [@yelp] is an online and mobile application providing platforms for internet users to publish reviews and rate local businesses, as well as a platform for online delivery service and reservation service. For the project, only the user-generated reviews and local business information was taken into consideration. The front page of `yelp.com` is illustrated in \autoref{fig:yelp_front}. The front page of `Relp` application will have a similar layout the the below figure with images and widgets.Users of `yelp.com` can gain information of the local businesses by entering the location information and topic of interest.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.9\linewidth, height=5cm]{"yelp_front".png}
-\caption{Front page of the `yelp.com` \label{fig:yelp_front}}
+\caption{Front page of `yelp.com` \label{fig:yelp_front}}
 \end{figure}
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.9\linewidth, height=5cm]{"yelp_main".png}
-\caption{Main page of the `yelp.com` \label{fig:yelp_main}}
-\end{figure}
+Once the above information are entered, the page is then redirected to \autoref{fig:yelp_main}. The main page has many features, but only a few of them is reflected in `Relp`: filter by price, map, and a list of businesses. When the cursor is hovered over a business, marker corresponding to the business changes its color. This feature is also realized in `Relp`.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.9\linewidth, height=5cm]{"yelp_rest".png}
-\caption{An example of a selected restaurant page on `yelp.com` \label{fig:yelp_rest}}
-\end{figure}
-
-```{r check, echo=F, eval=F}
-print("ihaveacode")
-```
 
 \pagebreak
 
-# Relp
-The website was initially scraped using the `rvest`[@rvest] package within the `tidyverse`[@tidyverse] package.
+When a single business is selected from the list, the page is redirected to \autoref{fig:yelp_rest}. This page contains detailed information of the business such as its phone number, hours of operation, more business info, images, and reviews/rates written by the users. The mentioned information are scraped, organized, and displayed on `Relp`.
 
-### Front panel
-The front page of the `Relp` tried to mimic the front page of the `yelp.com`. As illustraed in \autoref{fig:relp_front}, the page has an image of a delicious dish and a couple of widgets to enter inputs for the application. When the search button is clicked on the real `yelp` front page, the user is directed to a new web page with a list of businesses information. The realization of this feature was constructed on `Relp` by using the conditional panel with the "search"" button to initiate. That is, when the red search icon is clicked with appropriate "Find" and "Near" variable, the shiny application switches its panel to the main panel. The application starts scraping information from the `yelp.com` once the search button is pressed.
+\begin{figure}[h]
+
+\begin{subfigure}{0.5\textwidth}
+\includegraphics[width=0.9\linewidth, height=5cm]{"yelp_main".png} 
+\caption{Main page of `yelp.com`}
+\label{fig:yelp_main}
+\end{subfigure}
+\begin{subfigure}{0.5\textwidth}
+\includegraphics[width=0.9\linewidth, height=5cm]{"yelp_rest".png}
+\caption{An example of a selected restaurant page on `yelp.com`}
+\label{fig:yelp_rest}
+\end{subfigure}
+
+\caption{Example of `yelp.com`}
+\label{fig:yelp}
+\end{figure}
+
+
+# Relp
+In order to replicate `yelp.com`, `Relp` has four separated procedures: variable input, web scraping, data manipulation/organizing, and data display. Widget or `leaflet` and `DT` output is used as variable inputs.  Once the values of the variables are selected, `rvest` is used to scrape `yelp.com`.  `xpath` expression is used to select node(s). Then, `tidyverse`, `ggmap` and some base `R` function is used to manipulate/organize the scraped data.  Finally, `leaflet`, `DT`, base `R` function, and HTML expressions are utilized to display the output. Flowchart of `Relp` is provided in \autoref{fig:relp_scheme} for a better understanding.
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\linewidth, height=7cm]{"relp_scheme".png}
+\caption{Flowchart of Relp application \label{fig:relp_scheme}}
+\end{figure}
+
+\pagebreak
+
+## Front panel
+The front page of the `Relp` tried to mimic the front page of `yelp.com`. As illustrated in \autoref{fig:relp_front}, the page has an image of a delicious dish and a couple of widgets to enter inputs for the application. When the search button is clicked on the real `yelp` front page, the user is directed to a new web page with a list of businesses information. The realization of this feature was constructed on `Relp` by using the conditional panel with the "search" action button for initiation. That is, when the red search icon is clicked with appropriate "Find" and "Near" variable, the shiny application switches its panel to the main panel. The search URL of `yelp.com` has a general form of $\textcolor{blue}{https://www.yelp.com/search?find\_desc=}\textcolor{red}{Find}\textcolor{blue}{\&find\_loc=}\textcolor{red}{Near}$. Simple `sub` function can change the "Find" and "Near" variable to a widget input. The application starts scraping information from `yelp.com` once the search button is pressed. Location information is then translated to longitude and latitude via `ggmap` package.
 
 \begin{figure}[h]
 \centering
@@ -80,20 +85,20 @@ The front page of the `Relp` tried to mimic the front page of the `yelp.com`. As
 \caption{Front page of the Relp application \label{fig:relp_front}}
 \end{figure}
 
-### Main panel
-The main panel of the `Relp` application consist of two different sections: the input section and the output section. The input section has multiple widgets and is located on the left column of the page. User of the `relp` application could change the "Find" and the "Near" variable, and also filter the price variable.New output could be generated by clicking the "refresh" button. The output section located on the right side of the page with the following three sub-panels: map, review, and image panels. An example of the main page is provided in \autoref{fig:main_panel}. The "Find" and the "Near" variable was changed from "Ames, restaurant" in \autoref{fig:relp_main} to "San Francisco, Bars" in \autoref{fig:relp_map}.
+## Main panel
+The main panel of the `Relp` application consist of two different sections: the input section and the output section. The input section has multiple widgets and is located on the left column of the page. User of `Relp` application could change the "Find" and the "Near" variable, and also filter the price variable. New output could be generated by clicking the "refresh" button. The output section located on the right side of the page with the following three sub-panels: map, review, and image panels. An example of the main page is provided in \autoref{fig:main_panel}. The "Find" and the "Near" variable was changed from "Ames, restaurant" in \autoref{fig:relp_main} to "San Francisco, Bars" in \autoref{fig:relp_map}.
 
 
 \begin{figure}[h]
 
 \begin{subfigure}{0.5\textwidth}
 \includegraphics[width=0.9\linewidth, height=5cm]{"relp_main".png} 
-\caption{Initial map panel of the Relp application}
+\caption{Initial map panel of Relp application}
 \label{fig:relp_main}
 \end{subfigure}
 \begin{subfigure}{0.5\textwidth}
 \includegraphics[width=0.9\linewidth, height=5cm]{"relp_map".png}
-\caption{Map panel of the Relp application with different variables}
+\caption{Map panel of Relp application with different variables}
 \label{fig:relp_map}
 \end{subfigure}
 
@@ -102,44 +107,58 @@ The main panel of the `Relp` application consist of two different sections: the 
 \end{figure}
 
 ##### Map
-Location, price, and average rating are important factors when choosing the right business. These information could be obtain in the map panel. Visualization of the location information is reflected as a map using the `leaflet` package. Other information are organized into a data table by the `DT` package. Interaction between the data table and the map is also established. As illustraied in \autoref{fig:relp_map}, when a row in the data table is highlighted, the corresponding marker on the map changes its color from blue to red.
+Location, price, and average rating are important factors when choosing the right business. These information could be obtain in the map panel. Visualization of the location information is reflected as a map using the `leaflet` package. Other information are organized into a data table by the `DT` package. Interaction between the data table and the map is also established. As illustrated in \autoref{fig:relp_map}, when a row in the data table is highlighted, the corresponding marker on the map changes its color from blue to red.
 
 ##### Review
-Crowd-sourced reviews and ratings often provide valuable indirect experiences of a business to the users reading the evaluation. The review panel displays phone number, hours of operation, and features of a particular business as well as the crowd-sourced reviews and ratings. An example of the review panel is given in \autoref{fig:relp_review}. When a row of the data table from the map panel is highlighed, the corresponding url of the business is retrieved. The web page of the url is then scraped and re-organized as a shiny web panel.
+Crowd-sourced reviews and ratings often provide valuable indirect experiences of a business to the users reading the evaluation. The review panel displays phone number, hours of operation, and features of a particular business as well as the crowd-sourced reviews and ratings. An example of the review panel is given in \autoref{fig:relp_review}. When a row of the data table from the map panel is highlighted, the corresponding URL of the business is retrieved. The web page of the URL is then scraped and re-organized as a shiny web panel.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.9\linewidth, height=6cm]{"relp_review".png}
-\caption{Review panel of the Relp application \label{fig:relp_review}}
+\caption{Review panel of Relp application \label{fig:relp_review}}
 \end{figure}
 
 
 ##### Images
-Pictures of a business is also an important factor when making decisions. The algorithm for generating the image panel is similar to that of the review panel. Image files of a business are first download in a temporary folder. Two action buttons are used to navigate the images. When a new business is selected, files in the temporary forlder are deleted and new images are downloaded. Display of the image panel is portraited in \autoref{fig:relp_image}.
+Pictures of a business is also an important factor when making decisions. The algorithm for generating the image panel is similar to that of the review panel. Image files of a business are first download in a temporary folder. Two action buttons are used to navigate the images. When a new business is selected, files in the temporary folder are deleted and new images are downloaded. Display of the image panel is portrayed in \autoref{fig:relp_image}.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.9\linewidth, height=6cm]{"relp_image".png}
-\caption{Image panel of the Relp application \label{fig:relp_image}}
+\caption{Image panel of Relp application \label{fig:relp_image}}
 \end{figure}
 
-### Future work
+## Future work
 Although much effort was put into the application to imitate that `yelp.com`, the application is not perfect. There are a few known bugs to be fixed, some `yelp.com` features are omitted, and the cosmetic part may be improved for better display.
 
 ##### Fix bugs
-First, the application will crash when the Review and Image panel is selected with more than one business.  This is because the script is written for only one selected business url. A simple statement (e.g. the `if` statement) may be applied to check if more than two business urls are chosen as an input, and generate a waring message when the condition is not met.
+First, the application will crash when the Review and Image panel is selected with more than one business.  This is because the script is written for only one selected business URL. A simple statement (e.g. the `if` statement) may be applied to check if more than two business URLs are chosen as an input, and generate a warning message when the condition is not met.
 
 Second, a script should be updated to un-mark the selected marker on the leaflet output when clicked twice. Current script only marks the chosen input, and no code is written to reverse the selection. A leaflet proxy code could be applied to remove the marker when the business is clicked again.
 
-Third, an error occurs when publishing the application onto the `shinyapps.io`. On the local machine, the application runs smooth without any issues regarding the `leaflet` package. However, uploading the application yields the following message: `ERROR: could not find function "leafletOutput"`. Apparently, similar issues were brought up a couple years ago (2015). One of the suggestion was to load the `leaflet` package on both `ui` and `server`, however, this is not a solution for the case. Other possible source of errors maybe due to the lack of version control or errors generated from `leafletProxy` and `htmlwidgets`.  Further investigation should take place to fix this problem.
+Third, an error occurs when publishing the application onto the `shinyapps.io`. On the local machine, the application runs smooth without any issues regarding the `leaflet` package. However, uploading the application yields the following message: `ERROR: could not find function "leafletOutput"`. Apparently, similar issues were brought up a couple years ago (2015). One of the suggestion was to load the `leaflet` package on both `ui` and `server`, however, this is not a solution for `Relp` case. Other possible source of errors maybe due to the lack of version control or errors generated from `leafletProxy` and `htmlwidgets`.  Further investigation should take place to fix this problem.
 
 ##### Add more features
-
+One simple, but effective feature that could be easily implemented in `Relp` is the navigation feature. A new text input widget may be introduced to enter the current location as "From", and the location information of the of the business as "To". `ggmap` has a a function that calculates route from a location to another location. This route can be displayed using `ggmap` or `leaflet`.
 
 ##### Improve speed
+Slow speed of `Relp` is indeed an important problem to be solved. The fundamental reason of this problem is due to web scraping (especially fetching). A pseudo-treatment for this problem was suggested in the application by presenting a conditional panel, as shown in \autoref{fig:relp_busy}, that may entertain the users while waiting for the result to appear. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\linewidth, height=5cm]{"relp_busy".png}
+\caption{Conditional panel when Relp application is "busy" \label{fig:relp_busy}}
+\end{figure}
+
+Of course, this "pseudo" treatment is not a practical solution.  In order to truly solve this problem, `Relp` must have a local database of its own. A suggestion is to write a bot or a web crawler script that consistantly scrapes `yelp.com` data into a local database. Loading data from a local repository will drastically increase the speed of `Relp`.
+
 ##### Beautification
+As mentioned in the introduction, I have great interest in HTML/css language. If more time was given, I would have entertained myself incorporating HTML and css modification to `Relp` so that the appearance of `Relp` is similar to those commercial web pages.
 
 # Conclusion
+Although there are minor bugs to be fixed and future improvement to be made, `Relp` does what it is supposed to do: scrape data from `yelp.com` and rebuild plots, tables, and post photo images. While building `Relp` materials and packages introduced in STAT585 was very helpful. Next challenge is to successfully publish `Relp` on `shinyapps.io` and fix known bugs. 
+
+
 
 \pagebreak
 
